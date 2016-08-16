@@ -49,11 +49,13 @@ class SmsSender {
             tel.put("nationcode", nationCode);
             String phone = phoneNumber;
             tel.put("phone", phone);
+            data.put("type", "0");
             data.put("msg", content);
             String sig = stringMD5(appkey.concat(phone));
             data.put("sig", sig);
             data.put("tel", tel);
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), "utf-8");
+            System.out.println(data.toString());
             wr.write(data.toString());
             wr.flush();
 
