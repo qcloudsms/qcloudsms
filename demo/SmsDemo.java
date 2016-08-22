@@ -17,7 +17,7 @@ public class SmsDemo {
     public static void main(String[] args) {
         // 开放者实际发送短信时请使用申请的 sdkappid 和 appkey
         SmsSender sender = new SmsSender(1234567890, "1234567890");
-        sender.sendMsg("86", "13012345678", "1234");
+        sender.sendMsg("86", "13012345678", "验证码 1234");
     }
 }
 
@@ -55,7 +55,6 @@ class SmsSender {
             data.put("sig", sig);
             data.put("tel", tel);
             OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream(), "utf-8");
-            System.out.println(data.toString());
             wr.write(data.toString());
             wr.flush();
 

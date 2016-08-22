@@ -56,5 +56,5 @@ class SmsSender {
 }
 
 $sender = new SmsSender(1234567890, "1234567890");
-$sender->sendSms("86", "13012345678", "1234");
+$sender->sendSms("86", "13012345678", "验证码 1234");
 ?>
