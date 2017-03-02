@@ -1,4 +1,4 @@
-package com.qcloud.sms;
+﻿package com.qcloud.sms;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -44,7 +44,7 @@ public class SmsStatusPuller {
 
 		JSONObject data = new JSONObject();
 		data.put("sig", util.strToHash(String.format(
-				"appkey=%s&rand=%d&time=%d", appkey, random,curTime)));
+				"appkey=%s&random=%d&time=%d", appkey, random,curTime)));
 		data.put("begin_date", beginDate);
 		data.put("end_date", endDate);
 		data.put("time", curTime);
