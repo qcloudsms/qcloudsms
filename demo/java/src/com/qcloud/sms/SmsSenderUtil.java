@@ -162,28 +162,60 @@ class SmsSenderUtil {
     	return result;
     }
     
-    public SmsStatusPullerResult jsonToSmsStatusPullerResult(JSONObject json) {
-    	SmsStatusPullerResult result = new SmsStatusPullerResult();
+
+    public SmsStatusPullCallbackResult jsonToSmsStatusPullCallbackrResult(JSONObject json) {
+    	SmsStatusPullCallbackResult result = new SmsStatusPullCallbackResult();
     	
     	result.result = json.getInt("result");
     	result.errmsg = json.getString("errmsg");    	
     	if (true == json.isNull("data")) {
     		return result;
     	}
-    	
-    	JSONObject data  = json.getJSONObject("data");
-    	result.data = result.new Data();
-    	result.data.success = data.getInt("success");
-    	result.data.status = data.getInt("status");
-    	result.data.status_success = data.getInt("status_success");
-    	result.data.status_fail = data.getInt("status_fail");
-    	result.data.status_fail_0 = data.getInt("status_fail_0");
-    	result.data.status_fail_1 = data.getInt("status_fail_1");
-    	result.data.status_fail_2 = data.getInt("status_fail_2");
-    	result.data.status_fail_3 = data.getInt("status_fail_3");
-    	result.data.status_fail_4 = data.getInt("status_fail_4");
+    	result.callbacks = new ArrayList<>();  
+    	JSONArray datas  = json.getJSONArray("data");
+    	for(int index = 0 ; index< datas.length(); index++){
+    			JSONObject cb = datas.getJSONObject(index);
+    			SmsStatusPullCallbackResult.Callback callback = result.new Callback();
+    			callback.user_receive_time = cb.getString("user_receive_time");
+    			callback.nationcode = cb.getString("nationcode");
+    			callback.mobile = cb.getString("mobile");
+    			callback.report_status = cb.getString("report_status");
+    			callback.errmsg = cb.getString("errmsg");
+    			callback.description = cb.getString("description");
+    			callback.sid = cb.getString("sid");
+    			result.callbacks.add(callback);
+    	}
     	return result;
     }
+    
+
+    public SmsStatusPullReplyResult jsonToSmsStatusPullReplyResult(JSONObject json) {
+    	SmsStatusPullReplyResult result = new SmsStatusPullReplyResult();
+    	
+    	result.result = json.getInt("result");
+    	result.errmsg = json.getString("errmsg");
+    	result.count = json.getInt("count");
+    	
+    	if (true == json.isNull("data")) {
+    		return result;
+    	}
+    	
+    	result.replys = new ArrayList<>();  
+    	JSONArray datas  = json.getJSONArray("data");
+    	for(int index = 0 ; index< datas.length(); index++){
+    			JSONObject reply_json = datas.getJSONObject(index);
+    			SmsStatusPullReplyResult.Reply reply = result.new Reply();
+    			reply.nationcode = reply_json.getString("nationcode");
+    		  	reply.mobile = reply_json.getString("mobile");
+    		  	reply.sign = reply_json.getString("sign");
+    	    	reply.text = reply_json.getString("text"); 
+    	    	reply.time = reply_json.getLong("time"); 
+    			result.replys.add(reply);
+    	}
+    	
+    	return result;
+    }
+    
     
     public SmsVoiceUploaderResult jsonToSmsVoiceUploaderResult(JSONObject json) {
     	SmsVoiceUploaderResult result = new SmsVoiceUploaderResult();
