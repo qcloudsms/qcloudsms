@@ -8,7 +8,66 @@ import json
 import hashlib
 import random
 import time
-from  tools import SmsSenderUtil
+
+
+class SmsSenderUtil:
+    """ 工具类定义 """
+
+    def get_random(self):
+        return random.randint(100000, 999999)
+
+    def get_cur_time(self):
+        return long(time.time())
+
+    def calculate_sig(self, appkey, rnd, cur_time, phone_numbers):
+        phone_numbers_string = phone_numbers[0]
+        for i in range(1, len(phone_numbers)):
+            phone_numbers_string += "," + phone_numbers[i]
+        return hashlib.sha256("appkey=" + appkey + "&random=" + str(rnd) + "&time=" + str(cur_time)
+                              + "&mobile=" + phone_numbers_string).hexdigest()
+
+    def calculate_sig_for_templ_phone_numbers(self, appkey, rnd, cur_time, phone_numbers):
+        """ 计算带模板和手机号列表的 sig """
+        phone_numbers_string = phone_numbers[0]
+        for i in range(1, len(phone_numbers)):
+            phone_numbers_string += "," + phone_numbers[i]
+        return hashlib.sha256("appkey=" + appkey + "&random=" + str(rnd) + "&time="
+                              + str(cur_time) + "&mobile=" + phone_numbers_string).hexdigest()
+
+    def calculate_sig_for_templ(self, appkey, rnd, cur_time, phone_number):
+        phone_numbers = [phone_number]
+        return self.calculate_sig_for_templ_phone_numbers(appkey, rnd, cur_time, phone_numbers)
+
+    def phone_numbers_to_list(self, nation_code, phone_numbers):
+        tel = []
+        for phone_number in phone_numbers:
+            tel.append({"nationcode": nation_code, "mobile":phone_number})
+        return tel
+
+    def send_post_request(self, host, url, data):
+        con = None
+        try:
+            con = httplib.HTTPSConnection(host)
+            con.request('POST', url, json.dumps(data))
+            response = con.getresponse()
+            if '200' != str(response.status):
+                obj = {}
+                obj["result"] = -1
+                obj["errmsg"] = str(response.status) + " " + response.reason
+                result = json.dumps(obj)
+            else:
+                result = response.read()
+        except Exception, e:
+            import traceback
+            obj = {}
+            obj["result"] = -2
+            obj["errmsg"] = traceback.format_exc()
+            result = json.dumps(obj)
+        finally:
+            if con:
+                con.close()
+        return result
+
 
 class SmsSingleSender:
     """ 单发类定义"""
@@ -35,27 +94,27 @@ class SmsSingleSender:
 
         Returns:
             json string { "result": xxxx, "errmsg": "xxxxx" ... }，被省略的内容参见协议文档
-            请求包体
-            {
-                "tel": {
-                    "nationcode": "86",
-                    "mobile": "13788888888"
-                },
-                "type": 0,
-                "msg": "你的验证码是1234",
-                "sig": "fdba654e05bc0d15796713a1a1a2318c",
-                "time": 1479888540,
-                "extend": "",
-                "ext": ""
-            }
-            应答包体
-            {
-                "result": 0,
-                "errmsg": "OK",
-                "ext": "",
-                "sid": "xxxxxxx",
-                "fee": 1
-            }
+请求包体
+{
+    "tel": {
+        "nationcode": "86",
+        "mobile": "13788888888"
+    },
+    "type": 0,
+    "msg": "你的验证码是1234",
+    "sig": "fdba654e05bc0d15796713a1a1a2318c",
+    "time": 1479888540,
+    "extend": "",
+    "ext": ""
+}
+应答包体
+{
+    "result": 0,
+    "errmsg": "OK",
+    "ext": "",
+    "sid": "xxxxxxx",
+    "fee": 1
+}
         """
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
@@ -89,32 +148,32 @@ class SmsSingleSender:
 
         Returns:
             json string { "result": xxxx, "errmsg": "xxxxx" ... }，被省略的内容参见协议文档
-            请求包体
-            {
-                "tel": {
-                    "nationcode": "86",
-                    "mobile": "13788888888"
-                },
-                "sign": "腾讯云",
-                "tpl_id": 19,
-                "params": [
-                    "验证码",
-                    "1234",
-                    "4"
-                ],
-                "sig": "fdba654e05bc0d15796713a1a1a2318c",
-                "time": 1479888540,
-                "extend": "",
-                "ext": ""
-            }
-            应答包体
-            {
-                "result": 0,
-                "errmsg": "OK",
-                "ext": "",
-                "sid": "xxxxxxx",
-                "fee": 1
-            }
+请求包体
+{
+    "tel": {
+        "nationcode": "86",
+        "mobile": "13788888888"
+    },
+    "sign": "腾讯云",
+    "tpl_id": 19,
+    "params": [
+        "验证码",
+        "1234",
+        "4"
+    ],
+    "sig": "fdba654e05bc0d15796713a1a1a2318c",
+    "time": 1479888540,
+    "extend": "",
+    "ext": ""
+}
+应答包体
+{
+    "result": 0,
+    "errmsg": "OK",
+    "ext": "",
+    "sid": "xxxxxxx",
+    "fee": 1
+}
         """
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
@@ -161,49 +220,49 @@ class SmsMultiSender:
         Returns:
             json string { "result": xxxx, "errmsg": "xxxxx" ... }，被省略的内容参见协议文档
 
-        请求包体
+请求包体
+{
+    "tel": [
         {
-            "tel": [
-                {
-                    "nationcode": "86",
-                    "mobile": "13788888888"
-                },
-                {
-                    "nationcode": "86",
-                    "mobile": "13788888889"
-                }
-            ],
-            "type": 0,
-            "msg": "你的验证码是1234",
-            "sig": "fdba654e05bc0d15796713a1a1a2318c",
-            "time": 1479888540,
-            "extend": "",
-            "ext": ""
+            "nationcode": "86",
+            "mobile": "13788888888"
+        },
+        {
+            "nationcode": "86",
+            "mobile": "13788888889"
         }
-        应答包体
+    ],
+    "type": 0,
+    "msg": "你的验证码是1234",
+    "sig": "fdba654e05bc0d15796713a1a1a2318c",
+    "time": 1479888540,
+    "extend": "",
+    "ext": ""
+}
+应答包体
+{
+    "result": 0,
+    "errmsg": "OK",
+    "ext": "",
+    "detail": [
         {
             "result": 0,
             "errmsg": "OK",
-            "ext": "",
-            "detail": [
-                {
-                    "result": 0,
-                    "errmsg": "OK",
-                    "mobile": "13788888888",
-                    "nationcode": "86",
-                    "sid": "xxxxxxx",
-                    "fee": 1
-                },
-                {
-                    "result": 0,
-                    "errmsg": "OK",
-                    "mobile": "13788888889",
-                    "nationcode": "86",
-                    "sid": "xxxxxxx",
-                    "fee": 1
-                }
-            ]
+            "mobile": "13788888888",
+            "nationcode": "86",
+            "sid": "xxxxxxx",
+            "fee": 1
+        },
+        {
+            "result": 0,
+            "errmsg": "OK",
+            "mobile": "13788888889",
+            "nationcode": "86",
+            "sid": "xxxxxxx",
+            "fee": 1
         }
+    ]
+}
         """
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
@@ -236,48 +295,48 @@ class SmsMultiSender:
 
         Returns:
             json string { "result": xxxx, "errmsg": "xxxxx" ... }，被省略的内容参见协议文档
-        请求包体
-        {
-            "tel": {
-                "nationcode": "86",
-                "mobile": "13788888888"
-            },
-            "sign": "腾讯云",
-            "tpl_id": 19,
-            "params": [
-                "验证码",
-                "1234",
-                "4"
-            ],
-            "sig": "fdba654e05bc0d15796713a1a1a2318c",
-            "time": 1479888540,
-            "extend": "",
-            "ext": ""
-        }
-        应答包体
+请求包体
+{
+    "tel": {
+        "nationcode": "86",
+        "mobile": "13788888888"
+    },
+    "sign": "腾讯云",
+    "tpl_id": 19,
+    "params": [
+        "验证码",
+        "1234",
+        "4"
+    ],
+    "sig": "fdba654e05bc0d15796713a1a1a2318c",
+    "time": 1479888540,
+    "extend": "",
+    "ext": ""
+}
+应答包体
+{
+    "result": 0,
+    "errmsg": "OK",
+    "ext": "",
+    "detail": [
         {
             "result": 0,
             "errmsg": "OK",
-            "ext": "",
-            "detail": [
-                {
-                    "result": 0,
-                    "errmsg": "OK",
-                    "mobile": "13788888888",
-                    "nationcode": "86",
-                    "sid": "xxxxxxx",
-                    "fee": 1
-                },
-                {
-                    "result": 0,
-                    "errmsg": "OK",
-                    "mobile": "13788888889",
-                    "nationcode": "86",
-                    "sid": "xxxxxxx",
-                    "fee": 1
-                }
-            ]
+            "mobile": "13788888888",
+            "nationcode": "86",
+            "sid": "xxxxxxx",
+            "fee": 1
+        },
+        {
+            "result": 0,
+            "errmsg": "OK",
+            "mobile": "13788888889",
+            "nationcode": "86",
+            "sid": "xxxxxxx",
+            "fee": 1
         }
+    ]
+}
         """
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
