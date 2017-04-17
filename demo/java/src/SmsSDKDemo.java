@@ -11,6 +11,10 @@ import com.qcloud.sms.SmsVoiceUploaderResult;
 import com.qcloud.sms.SmsStatusPuller;
 import com.qcloud.sms.SmsStatusPullCallbackResult;
 import com.qcloud.sms.SmsStatusPullReplyResult;
+import com.qcloud.sms.SmsVoiceVerifyCodeSender;
+import com.qcloud.sms.SmsVoiceVerifyCodeSenderResult;
+import com.qcloud.sms.SmsVoicePromptSender;
+import com.qcloud.sms.SmsVoicePromptSenderResult;
 
 public class SmsSDKDemo {
     public static void main(String[] args) {
@@ -70,6 +74,17 @@ public class SmsSDKDemo {
     		System.out.println(callback_result);
     		SmsStatusPullReplyResult reply_result = pullstatus.pullReply(10);
     		System.out.println(reply_result);
+			
+			// 发送通知内容
+    		SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, appkey);
+    		SmsVoicePromptSenderResult smsSingleVoiceSenderResult = smsVoicePromtSender.send("86", phoneNumber1, 2,2,"欢迎使用", "");
+	    	System.out.println(smsSingleVoiceSenderResult);
+
+    		//语音验证码发送
+    		SmsVoiceVerifyCodeSender smsVoiceVerifyCodeSender = new SmsVoiceVerifyCodeSender(appid,appkey);
+    		SmsVoiceVerifyCodeSenderResult smsVoiceVerifyCodeSenderResult = smsVoiceVerifyCodeSender.send("86",phoneNumber1, "123",2,"");
+    		System.out.println(smsVoiceVerifyCodeSenderResult);
+			
     		
     	} catch (Exception e) {
 			e.printStackTrace();
