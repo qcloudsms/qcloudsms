@@ -3,17 +3,22 @@
 namespace Qcloud\Sms\Demo;
 
 require_once "SmsSender.php";
+require_once  "SmsVoiceSender.php";
+
 use Qcloud\Sms\SmsSingleSender;
 use Qcloud\Sms\SmsMultiSender;
+use Qcloud\Sms\SmsVoicePromtSender;
+use Qcloud\Sms\SmsVoiceVeriryCodeSender;
 
 try {
     // 请根据实际 appid 和 appkey 进行开发，以下只作为演示 sdk 使用
-    $appid = 123456;
-    $appkey = "1234567890abcdef1234567890abcdef";
-    $phoneNumber1 = "12345678901";
+    $appid = 122333333;
+    $appkey = "111111111112132312xx";
+    $phoneNumber1 = "21212313123";
     $phoneNumber2 = "12345678902";    
     $phoneNumber3 = "12345678903";
     $templId = 7839;
+
 
     $singleSender = new SmsSingleSender($appid, $appkey);
 
@@ -47,6 +52,21 @@ try {
     $rsp = json_decode($result);
     echo $result;
     echo "<br>";
+
+    //语音验证码发送
+    $voiceVeriyCodeSender = new SmsVoiceVerifyCodeSender($appid,$appkey);
+    $result = $voiceVeriyCodeSender->send("86",$phoneNumber1,"1234",2,"");
+    $rsp = json_decode($result);
+    echo $result;
+    echo "<br>";
+
+    //语音通知发送
+    $voiceVeriyCodeSender = new SmsVoicePromptSender($appid,$appkey);
+    $result = $voiceVeriyCodeSender->send("86",$phoneNumber1,"1234",2,"");
+    $rsp = json_decode($result);
+    echo $result;
+    echo "<br>";
+
 } catch (\Exception $e) {
     echo var_dump($e);
 }
