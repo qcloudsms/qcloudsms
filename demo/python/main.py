@@ -45,8 +45,8 @@ def sms():
 
 def voice():
      # 语音验证码请求
-     voice = VoiceSender(appid=1400024345,appkey="265885e366e02c26b42db642cc522160")
-     result = voice.send(nation_code="86",phone_number="18576696192",playtimes=2,msg="1234",ext="")
+     voice = VoiceSender(appid=133444444,appkey="2321312ada")
+     result = voice.send(nation_code="86",phone_number="18678885558",playtimes=2,msg="1234",ext="")
      rsp = json.loads(result)
      if(int(rsp['result']) != 0):
          errmsg=rsp['errmsg']
@@ -56,9 +56,9 @@ def voice():
 
 
     # 语音通知请求
-     voice_promt = VoicePromptSender(appid=1400024345, appkey="265885e366e02c26b42db642cc522160")
+     voice_promt = VoicePromptSender(appid=1123333, appkey="2321312ada")
      #note: msg内容，首先需要申请内容模板，通过后才可以发送
-     result = voice_promt.send(nation_code="86", phone_number="18576696192", playtimes=2, msg="你好语音模板", ext="")
+     result = voice_promt.send(nation_code="86", phone_number="156887998875", playtimes=2, msg="你好语音模板", ext="")
      rsp = json.loads(result)
      if (rsp['result'] != 0):
         errmsg = rsp['errmsg']
