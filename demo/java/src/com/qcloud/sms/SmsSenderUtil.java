@@ -228,17 +228,5 @@ class SmsSenderUtil {
     	}
     	return result;
     }
-    
-    public SmsSingleVoiceSenderResult jsonToSmsSingleVoiceSenderResult(JSONObject json) {
-    	SmsSingleVoiceSenderResult result = new SmsSingleVoiceSenderResult();
-    	result.result = json.getInt("result");
-    	if (false == json.isNull("errmsg")) {
-    		result.errmsg = json.getString("errmsg");
-    	}
-    	if (0 == result.result) {    		
-    		result.ext = json.getString("ext");
-    		result.callid = json.getString("callid");
-    	}    	
-    	return result;    	
-    }
+ 
 }
