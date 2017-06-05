@@ -4,8 +4,6 @@ import com.qcloud.sms.SmsMultiSender;
 import com.qcloud.sms.SmsMultiSenderResult;
 import com.qcloud.sms.SmsSingleSender;
 import com.qcloud.sms.SmsSingleSenderResult;
-import com.qcloud.sms.SmsVoiceUploader;
-import com.qcloud.sms.SmsVoiceUploaderResult;
 import com.qcloud.sms.SmsStatusPuller;
 import com.qcloud.sms.SmsStatusPullCallbackResult;
 import com.qcloud.sms.SmsStatusPullReplyResult;
