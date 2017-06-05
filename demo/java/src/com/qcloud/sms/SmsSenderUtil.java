@@ -215,4 +215,29 @@ class SmsSenderUtil {
     	
     	return result;
     }
+    public SmsVoiceVerifyCodeSenderResult jsonToSmsVoiceVerifyCodeSenderResult(JSONObject json) {
+    	SmsVoiceVerifyCodeSenderResult result = new SmsVoiceVerifyCodeSenderResult();
+    	result.result = json.getInt("result");
+    	if (false == json.isNull("errmsg")) {
+    		result.errmsg = json.getString("errmsg");
+    	}
+    	if (0 == result.result) {
+    		result.ext = json.getString("ext");
+    		result.callid = json.getString("callid");
+    	}
+    	return result;
+    }
+
+    public SmsVoicePromptSenderResult jsonToSmsVoicePromptSenderResult(JSONObject json) {
+    	SmsVoicePromptSenderResult result = new SmsVoicePromptSenderResult();
+    	result.result = json.getInt("result");
+    	if (false == json.isNull("errmsg")) {
+    		result.errmsg = json.getString("errmsg");
+    	}
+    	if (0 == result.result) {
+    		result.ext = json.getString("ext");
+    		result.callid = json.getString("callid");
+    	}
+    	return result;
+    }
 }
