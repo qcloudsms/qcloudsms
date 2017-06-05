@@ -215,18 +215,4 @@ class SmsSenderUtil {
     	
     	return result;
     }
-    
-    
-    public SmsVoiceUploaderResult jsonToSmsVoiceUploaderResult(JSONObject json) {
-    	SmsVoiceUploaderResult result = new SmsVoiceUploaderResult();
-    	result.result = json.getInt("result");
-    	if (false == json.isNull("msg")) {
-    		result.msg = json.getString("msg");
-    	}
-    	if (0 == result.result) {
-    		result.file = json.getString("file");
-    	}
-    	return result;
-    }
- 
 }
