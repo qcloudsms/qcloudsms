@@ -1,0 +1,16 @@
+{
+    "name": "houxiaobei/qcloudsms",
+    "description": "qcloud sms sdk 腾讯云短信SDK",
+    "authors": [
+        {
+            "name": "houxiaobei",
+            "email": "xiaobei.hou@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Qcloud\\Sms\\": "demo/php"
+        }
+    }
+}
