@@ -112,7 +112,7 @@ class SmsVoicePromptSender {
             $tel->mobile = "".$phoneNumber;
             
             $data->tel = $tel;
-            $data->msg = $msg;
+            $data->promptfile = $msg;
             $data->prompttype = $prompttype;//固定值
             $data->playtimes = $playtimes;
             $data->sig = hash("sha256",
