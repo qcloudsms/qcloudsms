@@ -219,7 +219,7 @@ public class SmsMultiSender {
 			throw new Exception("phoneNumbers size error");
 		}
 		if (null == params) {
-			params = new ArrayList<>();
+			params = new ArrayList<String>();
 		}
 		if (null == sign) {
 			sign = "";

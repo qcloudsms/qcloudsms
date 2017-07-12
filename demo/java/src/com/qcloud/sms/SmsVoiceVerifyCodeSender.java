@@ -43,7 +43,7 @@ public class SmsVoiceVerifyCodeSender {
         long random = util.getRandom();
         long curTime = System.currentTimeMillis()/1000;
 
-        ArrayList<String> phoneNumbers = new ArrayList<>();
+        ArrayList<String> phoneNumbers = new ArrayList<String>();
     	phoneNumbers.add(phoneNumber);
     	String sig = util.calculateSigForTempl(appkey, random, curTime, phoneNumbers);
 
