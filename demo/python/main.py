@@ -8,6 +8,7 @@ from Qcloud.Sms.voice import VoicePromptSender
 
 def sms():
     # 请根据实际 appid 和 appkey 进行开发，以下只作为演示 sdk 使用
+    # appid,appkey,templId申请方式可参考接入指南https://www.qcloud.com/document/product/382/3785#5-.E7.9F.AD.E4.BF.A1.E5.86.85.E5.AE.B9.E9.85.8D.E7.BD.AE
     appid = 123456
     appkey = "1234567890abcdef1234567890abcdef"    
     phone_number1 = "12345678901"
