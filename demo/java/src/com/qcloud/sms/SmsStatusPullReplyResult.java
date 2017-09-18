@@ -31,16 +31,22 @@ public class SmsStatusPullReplyResult {
 	ArrayList<Reply> replys;
 	
 	public String toString() {
+		if (0 == result) {
 			return String.format("SmsStatusReplyResult:\n"
-					+"result:%d\n"
-					+"errmsg:%s\n"
-					+"count:%d\n"
-					+"replys:%s\n",
-					result, 
+							+ "result:%d\n"
+							+ "errmsg:%s\n"
+							+ "count:%d\n"
+							+ "replys:%s\n",
+					result,
 					errmsg,
 					count,
 					replys.toString()
-		  );
+			);
+		} else {
+			return String.format("SmsStatusReplyResult:\n"
+							+ "result:%d\n"
+							+ "errmsg:%s\n", result, errmsg);
+		}
 	}
 }
 

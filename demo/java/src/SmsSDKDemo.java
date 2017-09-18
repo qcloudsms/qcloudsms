@@ -16,7 +16,7 @@ public class SmsSDKDemo {
     public static void main(String[] args) {
     	try {
     		//请根据实际 appid 和 appkey 进行开发，以下只作为演示 sdk 使用
-		//appid,appkey,templId申请方式可参考接入指南 https://www.qcloud.com/document/product/382/3785#5-.E7.9F.AD.E4.BF.A1.E5.86.85.E5.AE.B9.E9.85.8D.E7.BD.AE
+			//appid,appkey,templId申请方式可参考接入指南 https://www.qcloud.com/document/product/382/3785#5-.E7.9F.AD.E4.BF.A1.E5.86.85.E5.AE.B9.E9.85.8D.E7.BD.AE
     		int appid = 123345555;
     		String appkey = "1123323412asdadaf323fdadssa";
     		
@@ -66,11 +66,11 @@ public class SmsSDKDemo {
 	    	
     		
     		//拉取短信回执和回复
-    		SmsStatusPuller pullstatus = new SmsStatusPuller(appid,appkey);
-    		SmsStatusPullCallbackResult callback_result = pullstatus.pullCallback(10);
-    		System.out.println(callback_result);
-    		SmsStatusPullReplyResult reply_result = pullstatus.pullReply(10);
-    		System.out.println(reply_result);
+    		SmsStatusPuller pullstatus = new SmsStatusPuller(appid, appkey);
+    		SmsStatusPullCallbackResult callbackResult = pullstatus.pullCallback(10);
+    		System.out.println(callbackResult);
+    		SmsStatusPullReplyResult replyResult = pullstatus.pullReply(10);
+    		System.out.println(replyResult);
 			
 			// 发送通知内容
     		SmsVoicePromptSender smsVoicePromtSender = new SmsVoicePromptSender(appid, appkey);
