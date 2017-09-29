@@ -5,10 +5,13 @@ import hashlib
 from .tools import SmsSenderUtil
 
 '''语音验证码发送'''
+
+
 class VoiceSender:
     appid = 0
     appkey = 'default_key'
     url = "v5/tlsvoicesvr/sendvoice"
+
     def __init__(self, appid, appkey):
         self.appid = appid
         self.appkey = appkey
@@ -41,7 +44,8 @@ class VoiceSender:
         msg: 信息内容，必须与申请的模板格式一致，否则将返回错误
         ext: 服务端原样返回的参数，可填空串
     """
-    def send(self,nation_code, phone_number,playtimes,msg, ext):
+
+    def send(self, nation_code, phone_number, playtimes, msg, ext):
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
 
@@ -50,19 +54,22 @@ class VoiceSender:
         data["tel"] = tel
         data["msg"] = msg
         data["playtimes"] = playtimes
-        data["sig"] = hashlib.sha256("appkey=" + self.appkey + "&random=" + str(rnd)
-                                     + "&time=" + str(cur_time) + "&mobile=" + phone_number).hexdigest()
+        data["sig"] = self.util.signature(self.appkey, rnd, cur_time, phone_number)
         data["time"] = cur_time
         data["ext"] = ext
 
         whole_url = self.url + "?sdkappid=" + str(self.appid) + "&random=" + str(rnd)
         return self.util.send_post_request("yun.tim.qq.com", whole_url, data)
 
+
 '''语音通知发送'''
+
+
 class VoicePromptSender:
     appid = 0
     appkey = 'default_key'
     url = "/v5/tlsvoicesvr/sendvoiceprompt"
+
     def __init__(self, appid, appkey):
         self.appid = appid
         self.appkey = appkey
@@ -96,7 +103,8 @@ class VoicePromptSender:
         msg: 信息内容，必须与申请的模板格式一致，否则将返回错误
         ext: 服务端原样返回的参数，可填空串
     """
-    def send(self,nation_code, phone_number,playtimes,msg, ext):
+
+    def send(self, nation_code, phone_number, playtimes, msg, ext):
         rnd = self.util.get_random()
         cur_time = self.util.get_cur_time()
 
@@ -106,8 +114,7 @@ class VoicePromptSender:
         data["prompttype"] = 2
         data["promptfile"] = msg
         data["playtimes"] = playtimes
-        data["sig"] = hashlib.sha256("appkey=" + self.appkey + "&random=" + str(rnd)
-                                     + "&time=" + str(cur_time) + "&mobile=" + phone_number).hexdigest()
+        data["sig"] = self.util.signature(self.appkey, rnd, cur_time, phone_number)
         data["time"] = cur_time
         data["ext"] = ext
 

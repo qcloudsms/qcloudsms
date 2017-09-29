@@ -4,7 +4,8 @@
 # python 3 更换适当的开发库就能使用，在此我们不额外提供
 
 import hashlib
-from  .tools import SmsSenderUtil
+from .tools import SmsSenderUtil
+
 
 class SmsSingleSender:
     """ 单发类定义"""
@@ -62,8 +63,7 @@ class SmsSingleSender:
         data["tel"] = tel
         data["type"] = sms_type
         data["msg"] = msg
-        data["sig"] = hashlib.sha256("appkey=" + self.appkey + "&random=" + str(rnd)
-                                     + "&time=" + str(cur_time) + "&mobile=" + phone_number).hexdigest()
+        data["sig"] = self.util.signature(self.appkey, rnd, cur_time, phone_number)
         data["time"] = cur_time
         data["extend"] = extend
         data["ext"] = ext
@@ -121,7 +121,7 @@ class SmsSingleSender:
         data["tel"] = tel
         data["tpl_id"] = templ_id
         data["sign"] = sign
-        data["sig"] = self.util.calculate_sig_for_templ(self.appkey, rnd, cur_time, phone_number)
+        data["sig"] = self.util.signature(self.appkey, rnd, cur_time, phone_number)
         data["params"] = params
         data["time"] = cur_time
         data["extend"] = extend
@@ -209,7 +209,7 @@ class SmsMultiSender:
         data["tel"] = self.util.phone_numbers_to_list(nation_code, phone_numbers)
         data["type"] = sms_type
         data["msg"] = msg
-        data["sig"] = self.util.calculate_sig(self.appkey, rnd, cur_time, phone_numbers)
+        data["sig"] = self.util.calculate_signature(self.appkey, rnd, cur_time, phone_numbers)
         data["time"] = cur_time
         data["extend"] = extend
         data["ext"] = ext
@@ -282,7 +282,7 @@ class SmsMultiSender:
 
         data["tel"] = self.util.phone_numbers_to_list(nation_code, phone_numbers)
         data["sign"] = sign
-        data["sig"] = self.util.calculate_sig_for_templ_phone_numbers(self.appkey, rnd, cur_time, phone_numbers)
+        data["sig"] = self.util.calculate_signature(self.appkey, rnd, cur_time, phone_numbers)
         data["tpl_id"] = templ_id
         data["params"] = params
         data["time"] = cur_time
