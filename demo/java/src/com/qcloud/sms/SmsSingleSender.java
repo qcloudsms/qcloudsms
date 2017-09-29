@@ -178,7 +178,7 @@ public class SmsSingleSender {
 			nationCode = "86";
 		}
 		if (null == params) {
-			params = new ArrayList<>();
+			params = new ArrayList<String>();
 		}
 		if (null == sign) {
 			sign = "";

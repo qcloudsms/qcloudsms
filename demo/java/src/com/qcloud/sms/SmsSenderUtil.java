@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.qcloud.sms.SmsMultiSenderResult.Detail;
+import com.qcloud.sms.SmsStatusPullCallbackResult.Callback;
+import com.qcloud.sms.SmsStatusPullReplyResult.Reply;
 
 class SmsSenderUtil {
 
@@ -91,12 +96,12 @@ class SmsSenderUtil {
     		long random,
     		long curTime,    		
     		String phoneNumber) throws NoSuchAlgorithmException {
-    	ArrayList<String> phoneNumbers = new ArrayList<>();
+    	ArrayList<String> phoneNumbers = new ArrayList<String>();
     	phoneNumbers.add(phoneNumber);
     	return calculateSigForTempl(appkey, random, curTime, phoneNumbers);
     }
     
-    public JSONArray phoneNumbersToJSONArray(String nationCode, ArrayList<String> phoneNumbers) {
+    public JSONArray phoneNumbersToJSONArray(String nationCode, ArrayList<String> phoneNumbers) throws JSONException {
         JSONArray tel = new JSONArray();
         int i = 0;
         do {
@@ -117,7 +122,7 @@ class SmsSenderUtil {
         return smsParams;
     }
     
-    public SmsSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) {
+    public SmsSingleSenderResult jsonToSmsSingleSenderResult(JSONObject json) throws JSONException {
     	SmsSingleSenderResult result = new SmsSingleSenderResult();
     	
     	result.result = json.getInt("result");
@@ -130,7 +135,7 @@ class SmsSenderUtil {
     	return result;
     }
     
-    public SmsMultiSenderResult jsonToSmsMultiSenderResult(JSONObject json) {
+    public SmsMultiSenderResult jsonToSmsMultiSenderResult(JSONObject json) throws JSONException {
     	SmsMultiSenderResult result = new SmsMultiSenderResult();
     	
     	result.result = json.getInt("result");
@@ -142,7 +147,7 @@ class SmsSenderUtil {
     		return result;
     	}
     	
-    	result.details = new ArrayList<>();    	
+    	result.details = new ArrayList<Detail>();    	
     	JSONArray details = json.getJSONArray("detail");
     	for (int i = 0; i < details.length(); i++) {
     		JSONObject jsonDetail = details.getJSONObject(i);
@@ -163,7 +168,7 @@ class SmsSenderUtil {
     }
     
 
-    public SmsStatusPullCallbackResult jsonToSmsStatusPullCallbackrResult(JSONObject json) {
+    public SmsStatusPullCallbackResult jsonToSmsStatusPullCallbackrResult(JSONObject json) throws JSONException {
     	SmsStatusPullCallbackResult result = new SmsStatusPullCallbackResult();
     	
     	result.result = json.getInt("result");
@@ -171,7 +176,7 @@ class SmsSenderUtil {
     	if (true == json.isNull("data")) {
     		return result;
     	}
-    	result.callbacks = new ArrayList<>();  
+    	result.callbacks = new ArrayList<Callback>();  
     	JSONArray datas  = json.getJSONArray("data");
     	for(int index = 0 ; index< datas.length(); index++){
     			JSONObject cb = datas.getJSONObject(index);
@@ -188,7 +193,7 @@ class SmsSenderUtil {
     	return result;
     }
 
-    public SmsStatusPullReplyResult jsonToSmsStatusPullReplyResult(JSONObject json) {
+    public SmsStatusPullReplyResult jsonToSmsStatusPullReplyResult(JSONObject json) throws JSONException {
     	SmsStatusPullReplyResult result = new SmsStatusPullReplyResult();
     	
     	result.result = json.getInt("result");
@@ -201,7 +206,7 @@ class SmsSenderUtil {
     		return result;
     	}
     	
-    	result.replys = new ArrayList<>();  
+    	result.replys = new ArrayList<Reply>();  
     	JSONArray datas  = json.getJSONArray("data");
     	for(int index = 0 ; index< datas.length(); index++){
     			JSONObject reply_json = datas.getJSONObject(index);
@@ -216,7 +221,7 @@ class SmsSenderUtil {
     	
     	return result;
     }
-    public SmsVoiceVerifyCodeSenderResult jsonToSmsVoiceVerifyCodeSenderResult(JSONObject json) {
+    public SmsVoiceVerifyCodeSenderResult jsonToSmsVoiceVerifyCodeSenderResult(JSONObject json) throws JSONException {
     	SmsVoiceVerifyCodeSenderResult result = new SmsVoiceVerifyCodeSenderResult();
     	result.result = json.getInt("result");
     	if (false == json.isNull("errmsg")) {
@@ -229,7 +234,7 @@ class SmsSenderUtil {
     	return result;
     }
 
-    public SmsVoicePromptSenderResult jsonToSmsVoicePromptSenderResult(JSONObject json) {
+    public SmsVoicePromptSenderResult jsonToSmsVoicePromptSenderResult(JSONObject json) throws JSONException {
     	SmsVoicePromptSenderResult result = new SmsVoicePromptSenderResult();
     	result.result = json.getInt("result");
     	if (false == json.isNull("errmsg")) {
