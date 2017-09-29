@@ -57,7 +57,7 @@ class SmsSenderUtil:
                 obj["errmsg"] = "connect failed:\t"+str(response.status) + " " + response.reason
                 result = json.dumps(obj)
             else:
-                result = response.read()
+                result = response.read().decode('utf-8')
         except Exception as e:
             obj = {}
             obj["result"] = -2
