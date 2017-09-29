@@ -8,7 +8,7 @@ from tools import SmsSenderUtil
 class VoiceSender:
     appid = 0
     appkey = 'default_key'
-    url = "v5/tlsvoicesvr/sendvoice"
+    url = "/v5/tlsvoicesvr/sendvoice"
     def __init__(self, appid, appkey):
         self.appid = appid
         self.appkey = appkey
