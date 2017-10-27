@@ -33,7 +33,7 @@ function singleSmsSend(msgType, nationCode, phoneNumber, msg, extend, ext, cb) {
 
     var reqObj = {
         tel: {
-            nationCode: nationCode+'',
+            nationcode: nationCode+'',
             mobile: phoneNumber+''
         },
         type: Number(msgType),
@@ -91,7 +91,7 @@ function singleSmsSendWithParam(nationCode, phoneNumber, templId, params, sign, 
 
     var reqObj = {
         tel: {
-            nationCode: nationCode+'',
+            nationcode: nationCode+'',
             mobile: phoneNumber+''
         },
         sign: sign,
